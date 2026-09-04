@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Alo1234VC Key Center</title>
+
+<style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Arial,sans-serif;
+    color:#fff;
+    background:
+    radial-gradient(circle at top left,#263d99 0%,#0b1025 40%,#050712 100%);
+}
+
+.container{
+    width:min(900px,94%);
+    margin:30px auto;
+}
+
+.hero{
+    padding:25px;
+    border-radius:22px;
+    background:rgba(12,18,40,.85);
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+    margin-bottom:15px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo-icon{
+    width:52px;
+    height:52px;
+    display:grid;
+    place-items:center;
+    border-radius:15px;
+    font-size:25px;
+    background:linear-gradient(135deg,#6366f1,#ec4899);
+}
+
+h1{
+    margin:0;
+}
+
+.subtitle{
+    color:#aab6d6;
+    margin-top:5px;
+}
+
+.card{
+    padding:20px;
+    margin-bottom:15px;
+    border-radius:18px;
+    background:rgba(12,18,40,.85);
+    border:1px solid rgba(255,255,255,.11);
+}
+
+button{
+    width:100%;
+    border:0;
+    border-radius:11px;
+    padding:13px;
+    margin-top:8px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    filter:brightness(1.1);
+}
+
+.secondary{
+    background:#1b2543;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:6px 0;
+    border-radius:10px;
+    border:1px solid #344064;
+    background:#080d20;
+    color:white;
+    outline:none;
+}
+
+.hidden{
+    display:none;
+}
+
+.ok{
+    color:#6ee7b7;
+}
+
+.error{
+    color:#fb7185;
+}
+
+.muted{
+    color:#aab6d6;
+}
+
+.key{
+    margin-top:12px;
+    padding:14px;
+    border-radius:12px;
+    border:1px dashed #52619a;
+    background:#050914;
+    font-family:monospace;
+    font-weight:bold;
+    word-break:break-all;
+}
+
+.small{
+    font-size:12px;
+}
+
+.admin{
+    max-width:350px;
+    margin:auto;
+}
+
+.footer{
+    text-align:center;
+    color:#7180a8;
+    font-size:12px;
+    padding:20px;
+}
+
+.people-wrap{overflow-x:auto;margin-top:14px}
+.people-table{width:100%;min-width:980px;border-collapse:collapse;font-size:13px}
+.people-table th,.people-table td{border:1px solid rgba(255,255,255,.12);padding:9px;text-align:left;vertical-align:top}
+.people-table th{font-weight:700}
+.people-table button{margin:3px 0;padding:7px 9px;font-size:12px}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <section class="hero">
+        <div class="logo">
+            <div class="logo-icon">🔑</div>
+
+            <div>
+                <h1>Alo1234VC</h1>
+                <div class="subtitle">
+                    Key Center • Link4M
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- MENU -->
+
+    <div style="display:flex;gap:8px;margin-bottom:15px">
+
+        <button onclick="toggleAdmin()">
+            🔐 Admin
+        </button>
+
+        <button onclick="createLink4M()">
+            🔑 Lấy Key
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN LOGIN -->
+
+    <section id="adminLogin" class="card admin hidden">
+
+        <h2>🔐 Admin Login</h2>
+
+        <input
+            id="username"
+            placeholder="Tài khoản"
+            autocomplete="username"
+        >
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Mật khẩu"
+            autocomplete="current-password"
+        >
+
+        <button onclick="login()">
+            Đăng nhập
+        </button>
+
+        <div id="loginMessage"></div>
+
+    </section>
+
+
+    <!-- ADMIN -->
+
+    <section id="adminPanel" class="card admin hidden">
+
+    <h2>⚙️ Quản lý Key</h2>
+
+    <p class="muted">
+        Key do Admin tạo là <b>VĨNH VIỄN</b>.
+    </p>
+
+    <button onclick="createKey()">
+        ➕ Tạo Key vĩnh viễn
+    </button>
+
+    <div id="createdKey"></div>
+
+    <hr>
+
+    <h2>👥 Danh sách người lấy key</h2>
+
+    <p class="muted">
+        IP, HWID, thời gian, loại key và trạng thái.
+    </p>
+
+    <button onclick="loadPeople()">🔄 Tải danh sách</button>
+    <button onclick="loadAudit()">📊 Nhật ký</button>
+
+    <div id="peopleResult"></div>
+
+    <hr>
+
+    <h2>🔒 Khóa / mở khóa HWID</h2>
+
+    <input id="manualHwid" placeholder="Nhập HWID cần khóa/mở khóa">
+
+    <button onclick="blockManualHwid()">🔒 Khóa HWID</button>
+    <button onclick="unblockManualHwid()">🔓 Mở khóa HWID</button>
+
+    <div id="hwidMessage"></div>
+
+</section>
+
+
+    <!-- LINK4M -->
+
+    <section class="card">
+
+        <h2>🔑 Lấy Key qua Link4M</h2>
+
+        <p class="muted">
+            Bấm nút bên dưới để mở Link4M.
+            Sau khi hoàn thành quy trình của Link4M,
+            bạn sẽ được đưa về trang này.
+        </p>
+
+        <button onclick="createLink4M()">
+            🔑 Lấy Key qua Link4M
+        </button>
+
+        <div id="link4mMessage"></div>
+
+    </section>
+
+
+    <!-- RETURN -->
+
+    <section
+        id="returnPanel"
+        class="card hidden"
+    >
+
+        <h2>↩️ Đã quay lại</h2>
+
+        <p class="muted">
+            Bạn đã quay lại từ Link4M.
+        </p>
+
+        <p class="small">
+            Hệ thống chỉ cấp Key sau khi có xác nhận
+            hoàn thành hợp lệ từ Link4M.
+        </p>
+
+        <div id="returnMessage"></div>
+
+    </section>
+
+
+    <!-- VALIDATE -->
+
+    <section class="card">
+
+        <h2>✅ Kiểm tra Key</h2>
+
+        <input
+            id="keyInput"
+            placeholder="ALO-XXXXX-XXXXX-XXXXX-XXXXX"
+        >
+
+        <button onclick="validateKey()">
+            Kiểm tra Key
+        </button>
+
+        <div id="validateMessage"></div>
+
+    </section>
+
+
+    <div class="footer">
+        Alo1234VC • Link4M Key Center
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+====================================================
+CẤU HÌNH
+====================================================
+*/
+
+const WORKER_URL = "https://alo1234vc-api.xuandoann58.workers.dev";
+
+
+let adminToken =
+sessionStorage.getItem("adminToken");
+
+
+/*
+====================================================
+HELPER
+====================================================
+*/
+
+function $(id){
+    return document.getElementById(id);
+}
+
+
+function escapeHtml(text){
+
+    return String(text).replace(
+        /[&<>"']/g,
+        function(char){
+
+            return {
+                "&":"&amp;",
+                "<":"&lt;",
+                ">":"&gt;",
+                '"':"&quot;",
+                "'":"&#039;"
+
+            }[char];
+
+        }
+    );
+
+}
+
+
+async function api(path,options={}){
+
+    const headers = {
+        ...(options.headers || {})
+    };
+
+    if(
+        options.body &&
+        !headers["Content-Type"] &&
+        !headers["content-type"]
+    ){
+        headers["Content-Type"] = "application/json";
+    }
+
+    const response =
+        await fetch(
+            WORKER_URL + path,
+            {
+                ...options,
+                headers
+            }
+        );
+
+    const data =
+        await response
+        .json()
+        .catch(
+            ()=>({error:"API không trả JSON"})
+        );
+
+    if(!response.ok){
+        throw new Error(
+            data.error || "Request failed"
+        );
+    }
+
+    return data;
+}
+
+
+/*
+====================================================
+ADMIN
+====================================================
+*/
+
+function toggleAdmin(){
+
+    $("adminLogin")
+        .classList.toggle("hidden");
+
+}
+
+
+async function login(){
+
+    const username =
+        $("username").value.trim();
+
+    const password =
+        $("password").value;
+
+
+    try{
+
+        const data =
+            await api(
+                "/admin/login",
+                {
+                    method:"POST",
+
+                    body:JSON.stringify({
+                        username,
+                        password
+                    })
+                }
+            );
+
+
+        adminToken =
+            data.token;
+
+
+        sessionStorage.setItem(
+            "adminToken",
+            adminToken
+        );
+
+
+        $("loginMessage").innerHTML =
+            '<p class="ok">✓ Đăng nhập thành công.</p>';
+
+
+        $("adminPanel")
+            .classList.remove("hidden");
+
+        loadPeople();
+
+    }
+
+    catch(error){
+
+        $("loginMessage").innerHTML =
+            '<p class="error">✕ ' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+
+}
+
+
+/*
+====================================================
+TẠO KEY ADMIN
+====================================================
+*/
+
+async function createKey(){
+
+    if(!adminToken){
+
+        $("createdKey").innerHTML =
+            '<p class="error">Bạn chưa đăng nhập.</p>';
+
+        return;
+
+    }
+
+
+    try{
+
+        const data =
+            await api(
+                "/admin/keys",
+                {
+                    method:"POST",
+
+                    headers:{
+                        Authorization:
+                            "Bearer " +
+                            adminToken
+                    },
+
+                    body:JSON.stringify({
+                        permanent: true
+                    })
+                }
+            );
+
+
+        $("createdKey").innerHTML =
+
+            '<div class="key">' +
+            escapeHtml(data.key) +
+            '</div>' +
+
+            '<p class="ok">✓ Key VĨNH VIỄN — không hết hạn.</p>';
+
+    }
+
+    catch(error){
+
+        $("createdKey").innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+
+}
+
+
+
+/*
+====================================================
+DANH SÁCH NGƯỜI LẤY KEY / HWID
+====================================================
+*/
+
+function maskHwid(hwid){
+    if(!hwid) return "Chưa có";
+    const s = String(hwid);
+    if(s.length <= 10) return s;
+    return s.slice(0,6) + "••••" + s.slice(-4);
+}
+
+function formatTime(value){
+    if(!value) return "—";
+    const d = new Date(value);
+    return Number.isNaN(d.getTime())
+        ? String(value)
+        : d.toLocaleString();
+}
+
+async function loadPeople(){
+
+    const box = $("peopleResult");
+    if(!box) return;
+
+    if(!adminToken){
+        box.innerHTML =
+            '<p class="error">Bạn chưa đăng nhập Admin.</p>';
+        return;
+    }
+
+    box.innerHTML =
+        '<p class="muted">Đang tải danh sách...</p>';
+
+    try{
+
+        const data =
+            await api(
+                "/admin/people?limit=500",
+                {
+                    method:"GET",
+                    headers:{
+                        Authorization:
+                            "Bearer " + adminToken
+                    }
+                }
+            );
+
+        const people =
+            Array.isArray(data.people)
+                ? data.people
+                : [];
+
+        if(!people.length){
+            box.innerHTML =
+                '<p class="muted">Chưa có người/key nào.</p>';
+            return;
+        }
+
+        box.innerHTML = `
+            <div class="people-wrap">
+            <table class="people-table">
+                <thead>
+                    <tr>
+                        <th>Key</th>
+                        <th>Loại key</th>
+                        <th>IP</th>
+                        <th>HWID</th>
+                        <th>Thời gian tạo</th>
+                        <th>Lần cuối</th>
+                        <th>Lượt check</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${people.map(p => {
+
+                        const status = p.status || "UNKNOWN";
+
+                        const statusText =
+                            status === "VALID" ? "✅ Hợp lệ" :
+                            status === "EXPIRED" ? "⌛ Hết hạn" :
+                            status === "REVOKED" ? "🚫 Thu hồi" :
+                            status === "BLOCKED_HWID" ? "🔒 HWID bị khóa" :
+                            status === "HWID_MISMATCH" ? "⚠️ HWID khác" :
+                            status;
+
+                        const hwid = p.hwid || "";
+
+                        return `
+                            <tr>
+                                <td><code>${escapeHtml(p.key || "")}</code></td>
+                                <td>${escapeHtml(p.keyType || "UNKNOWN")}</td>
+                                <td>${escapeHtml(p.ip || "unknown")}</td>
+                                <td title="${escapeHtml(hwid)}">${escapeHtml(maskHwid(hwid))}</td>
+                                <td>${escapeHtml(formatTime(p.createdTime))}</td>
+                                <td>${escapeHtml(formatTime(p.lastTime))}</td>
+                                <td>${escapeHtml(p.validationCount || 0)}</td>
+                                <td>${escapeHtml(statusText)}</td>
+                                <td>
+                                    ${
+                                        hwid
+                                        ? `
+                                            <button onclick="blockHwid('${encodeURIComponent(hwid)}')">🔒 Khóa</button>
+                                            <button onclick="unblockHwid('${encodeURIComponent(hwid)}')">🔓 Mở</button>
+                                          `
+                                        : "Chưa có HWID"
+                                    }
+                                </td>
+                            </tr>
+                        `;
+                    }).join("")}
+                </tbody>
+            </table>
+            </div>
+            <p class="small">Tổng: ${people.length} key/người ghi nhận.</p>
+        `;
+
+    }catch(error){
+
+        box.innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+}
+
+async function blockHwid(encoded){
+
+    if(!adminToken){
+        alert("Bạn chưa đăng nhập Admin.");
+        return;
+    }
+
+    const hwid = decodeURIComponent(encoded);
+
+    if(!confirm("Khóa HWID này? Thiết bị sẽ không thể xác thực key.")){
+        return;
+    }
+
+    try{
+
+        const data =
+            await api(
+                "/admin/block-hwid",
+                {
+                    method:"POST",
+                    headers:{
+                        Authorization:
+                            "Bearer " + adminToken
+                    },
+                    body:JSON.stringify({hwid})
+                }
+            );
+
+        $("hwidMessage").innerHTML =
+            '<p class="ok">' +
+            escapeHtml(data.message || "Đã khóa HWID.") +
+            '</p>';
+
+        loadPeople();
+
+    }catch(error){
+
+        $("hwidMessage").innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+}
+
+async function unblockHwid(encoded){
+
+    if(!adminToken){
+        alert("Bạn chưa đăng nhập Admin.");
+        return;
+    }
+
+    const hwid = decodeURIComponent(encoded);
+
+    try{
+
+        const data =
+            await api(
+                "/admin/unblock-hwid",
+                {
+                    method:"POST",
+                    headers:{
+                        Authorization:
+                            "Bearer " + adminToken
+                    },
+                    body:JSON.stringify({hwid})
+                }
+            );
+
+        $("hwidMessage").innerHTML =
+            '<p class="ok">' +
+            escapeHtml(data.message || "Đã mở khóa HWID.") +
+            '</p>';
+
+        loadPeople();
+
+    }catch(error){
+
+        $("hwidMessage").innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+}
+
+function blockManualHwid(){
+    const hwid = $("manualHwid").value.trim();
+
+    if(!hwid){
+        $("hwidMessage").innerHTML =
+            '<p class="error">Hãy nhập HWID.</p>';
+        return;
+    }
+
+    blockHwid(encodeURIComponent(hwid));
+}
+
+function unblockManualHwid(){
+    const hwid = $("manualHwid").value.trim();
+
+    if(!hwid){
+        $("hwidMessage").innerHTML =
+            '<p class="error">Hãy nhập HWID.</p>';
+        return;
+    }
+
+    unblockHwid(encodeURIComponent(hwid));
+}
+
+
+
+/*
+====================================================
+LINK4M
+====================================================
+*/
+
+async function createLink4M(){
+
+    $("link4mMessage").innerHTML =
+        '<p class="muted">Đang tạo Link4M...</p>';
+
+
+    try{
+
+        const returnUrl =
+            window.location.origin +
+            window.location.pathname;
+
+
+        const data =
+            await api(
+                "/link4m/create",
+                {
+                    method:"POST",
+
+                    body:JSON.stringify({
+                        returnUrl,
+                        durationHours: 24
+                    })
+                }
+            );
+
+
+        if(!data.url){
+
+            throw new Error(
+                "Worker không trả về Link4M URL"
+            );
+
+        }
+
+
+        window.location.href =
+            data.url;
+
+    }
+
+    catch(error){
+
+        $("link4mMessage").innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+
+}
+
+
+/*
+====================================================
+KIỂM TRA KEY
+====================================================
+*/
+
+async function validateKey(){
+
+    const key =
+        $("keyInput")
+        .value
+        .trim();
+
+
+    if(!key){
+
+        $("validateMessage").innerHTML =
+            '<p class="error">' +
+            'Hãy nhập Key.' +
+            '</p>';
+
+        return;
+
+    }
+
+
+    try{
+
+        const data =
+            await api(
+                "/key/validate",
+                {
+                    method:"POST",
+
+                    body:JSON.stringify({
+                        key
+                    })
+                }
+            );
+
+
+        if(data.valid){
+
+            $("validateMessage").innerHTML =
+
+                '<p class="ok">' +
+                '✓ Key hợp lệ.' +
+                '</p>';
+
+        }
+
+        else{
+
+            $("validateMessage").innerHTML =
+
+                '<p class="error">' +
+                '✕ Key sai hoặc đã hết hạn.' +
+                '</p>';
+
+        }
+
+    }
+
+    catch(error){
+
+        $("validateMessage").innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+
+}
+
+
+/*
+====================================================
+XỬ LÝ KHI QUAY LẠI
+====================================================
+*/
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+if(params.get("link4m") === "done"){
+
+    $("returnPanel")
+        .classList.remove("hidden");
+
+    const returnedKey =
+        params.get("key");
+
+    if(returnedKey){
+
+        $("returnMessage").innerHTML =
+            '<p class="ok">✅ Link4M hoàn tất.</p>' +
+            '<div class="key">' +
+            escapeHtml(returnedKey) +
+            '</div>' +
+            '<p class="small">Key GET có thời hạn 24 giờ.</p>';
+
+        $("keyInput").value =
+            returnedKey;
+    }
+}
+
+
+/* ====================================================
+   AUDIT LOG / IP / HWID
+   ==================================================== */
+
+async function loadAudit(){
+
+    const box = $("peopleResult");
+    if(!box) return;
+
+    if(!adminToken){
+        box.innerHTML =
+            '<p class="error">Bạn chưa đăng nhập Admin.</p>';
+        return;
+    }
+
+    box.innerHTML =
+        '<p class="muted">Đang tải nhật ký...</p>';
+
+    try{
+
+        const data =
+            await api(
+                "/admin/audit?limit=200",
+                {
+                    method:"GET",
+                    headers:{
+                        Authorization:
+                            "Bearer " + adminToken
+                    }
+                }
+            );
+
+        const logs =
+            Array.isArray(data.logs)
+                ? data.logs
+                : [];
+
+        if(!logs.length){
+            box.innerHTML =
+                '<p class="muted">Chưa có nhật ký.</p>';
+            return;
+        }
+
+        box.innerHTML = `
+            <div class="people-wrap">
+            <table class="people-table">
+                <thead>
+                    <tr>
+                        <th>Thời gian</th>
+                        <th>Sự kiện</th>
+                        <th>Key</th>
+                        <th>Loại key</th>
+                        <th>IP</th>
+                        <th>HWID</th>
+                        <th>Lý do</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${logs.map(log => `
+                        <tr>
+                            <td>${escapeHtml(formatTime(log.time))}</td>
+                            <td>${escapeHtml(log.type || "")}</td>
+                            <td>${escapeHtml(log.key || "")}</td>
+                            <td>${escapeHtml(log.keyType || "")}</td>
+                            <td>${escapeHtml(log.ip || "unknown")}</td>
+                            <td>${escapeHtml(maskHwid(log.hwid || log.originalHwid || ""))}</td>
+                            <td>${escapeHtml(log.reason || "")}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+            </table>
+            </div>
+        `;
+
+    }catch(error){
+
+        box.innerHTML =
+            '<p class="error">' +
+            escapeHtml(error.message) +
+            '</p>';
+
+    }
+}
+
+</script>
+</body>
+</html>
